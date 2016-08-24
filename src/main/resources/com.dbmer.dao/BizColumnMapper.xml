@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbmer.dao.BizColumnMapper">
+  <resultMap id="BaseResultMap" type="com.dbmer.model.BizColumn">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="comment" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="biz_database_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="biz_table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="key_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="not_null" javaType="byte[]" jdbcType="BIT" />
+      <arg column="ref_table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ref_column_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_deprecated" javaType="byte[]" jdbcType="BIT" />
+      <arg column="is_deleted" javaType="byte[]" jdbcType="BIT" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, comment, create_time, update_time, biz_database_id, biz_table_id, key_type, 
+    not_null, ref_table_id, ref_column_id, is_deprecated, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.dbmer.model.BizColumnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_column
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biz_column
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dbmer.model.BizColumnExample">
+    delete from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dbmer.model.BizColumn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into biz_column (name, comment, create_time, 
+      update_time, biz_database_id, biz_table_id, 
+      key_type, not_null, ref_table_id, 
+      ref_column_id, is_deprecated, is_deleted
+      )
+    values (#{name,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{bizDatabaseId,jdbcType=INTEGER}, #{bizTableId,jdbcType=INTEGER}, 
+      #{keyType,jdbcType=TINYINT}, #{notNull,jdbcType=BIT}, #{refTableId,jdbcType=INTEGER}, 
+      #{refColumnId,jdbcType=INTEGER}, #{isDeprecated,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dbmer.model.BizColumn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into biz_column
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="bizDatabaseId != null">
+        biz_database_id,
+      </if>
+      <if test="bizTableId != null">
+        biz_table_id,
+      </if>
+      <if test="keyType != null">
+        key_type,
+      </if>
+      <if test="notNull != null">
+        not_null,
+      </if>
+      <if test="refTableId != null">
+        ref_table_id,
+      </if>
+      <if test="refColumnId != null">
+        ref_column_id,
+      </if>
+      <if test="isDeprecated != null">
+        is_deprecated,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizDatabaseId != null">
+        #{bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="bizTableId != null">
+        #{bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="keyType != null">
+        #{keyType,jdbcType=TINYINT},
+      </if>
+      <if test="notNull != null">
+        #{notNull,jdbcType=BIT},
+      </if>
+      <if test="refTableId != null">
+        #{refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="refColumnId != null">
+        #{refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeprecated != null">
+        #{isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dbmer.model.BizColumnExample" resultType="java.lang.Integer">
+    select count(*) from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_column
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bizDatabaseId != null">
+        biz_database_id = #{record.bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bizTableId != null">
+        biz_table_id = #{record.bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyType != null">
+        key_type = #{record.keyType,jdbcType=TINYINT},
+      </if>
+      <if test="record.notNull != null">
+        not_null = #{record.notNull,jdbcType=BIT},
+      </if>
+      <if test="record.refTableId != null">
+        ref_table_id = #{record.refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="record.refColumnId != null">
+        ref_column_id = #{record.refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeprecated != null">
+        is_deprecated = #{record.isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_column
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      comment = #{record.comment,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      biz_database_id = #{record.bizDatabaseId,jdbcType=INTEGER},
+      biz_table_id = #{record.bizTableId,jdbcType=INTEGER},
+      key_type = #{record.keyType,jdbcType=TINYINT},
+      not_null = #{record.notNull,jdbcType=BIT},
+      ref_table_id = #{record.refTableId,jdbcType=INTEGER},
+      ref_column_id = #{record.refColumnId,jdbcType=INTEGER},
+      is_deprecated = #{record.isDeprecated,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dbmer.model.BizColumn">
+    update biz_column
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizDatabaseId != null">
+        biz_database_id = #{bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="bizTableId != null">
+        biz_table_id = #{bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="keyType != null">
+        key_type = #{keyType,jdbcType=TINYINT},
+      </if>
+      <if test="notNull != null">
+        not_null = #{notNull,jdbcType=BIT},
+      </if>
+      <if test="refTableId != null">
+        ref_table_id = #{refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="refColumnId != null">
+        ref_column_id = #{refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeprecated != null">
+        is_deprecated = #{isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dbmer.model.BizColumn">
+    update biz_column
+    set name = #{name,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      biz_database_id = #{bizDatabaseId,jdbcType=INTEGER},
+      biz_table_id = #{bizTableId,jdbcType=INTEGER},
+      key_type = #{keyType,jdbcType=TINYINT},
+      not_null = #{notNull,jdbcType=BIT},
+      ref_table_id = #{refTableId,jdbcType=INTEGER},
+      ref_column_id = #{refColumnId,jdbcType=INTEGER},
+      is_deprecated = #{isDeprecated,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.dbmer.model.BizColumn">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="comment" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="biz_database_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="biz_table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="key_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="not_null" javaType="byte[]" jdbcType="BIT" />
+      <arg column="ref_table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ref_column_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_deprecated" javaType="byte[]" jdbcType="BIT" />
+      <arg column="is_deleted" javaType="byte[]" jdbcType="BIT" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, comment, create_time, update_time, biz_database_id, biz_table_id, key_type, 
+    not_null, ref_table_id, ref_column_id, is_deprecated, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.dbmer.model.BizColumnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_column
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biz_column
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dbmer.model.BizColumnExample">
+    delete from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dbmer.model.BizColumn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into biz_column (name, comment, create_time, 
+      update_time, biz_database_id, biz_table_id, 
+      key_type, not_null, ref_table_id, 
+      ref_column_id, is_deprecated, is_deleted
+      )
+    values (#{name,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{bizDatabaseId,jdbcType=INTEGER}, #{bizTableId,jdbcType=INTEGER}, 
+      #{keyType,jdbcType=TINYINT}, #{notNull,jdbcType=BIT}, #{refTableId,jdbcType=INTEGER}, 
+      #{refColumnId,jdbcType=INTEGER}, #{isDeprecated,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dbmer.model.BizColumn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into biz_column
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="bizDatabaseId != null">
+        biz_database_id,
+      </if>
+      <if test="bizTableId != null">
+        biz_table_id,
+      </if>
+      <if test="keyType != null">
+        key_type,
+      </if>
+      <if test="notNull != null">
+        not_null,
+      </if>
+      <if test="refTableId != null">
+        ref_table_id,
+      </if>
+      <if test="refColumnId != null">
+        ref_column_id,
+      </if>
+      <if test="isDeprecated != null">
+        is_deprecated,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizDatabaseId != null">
+        #{bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="bizTableId != null">
+        #{bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="keyType != null">
+        #{keyType,jdbcType=TINYINT},
+      </if>
+      <if test="notNull != null">
+        #{notNull,jdbcType=BIT},
+      </if>
+      <if test="refTableId != null">
+        #{refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="refColumnId != null">
+        #{refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeprecated != null">
+        #{isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dbmer.model.BizColumnExample" resultType="java.lang.Integer">
+    select count(*) from biz_column
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_column
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bizDatabaseId != null">
+        biz_database_id = #{record.bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bizTableId != null">
+        biz_table_id = #{record.bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyType != null">
+        key_type = #{record.keyType,jdbcType=TINYINT},
+      </if>
+      <if test="record.notNull != null">
+        not_null = #{record.notNull,jdbcType=BIT},
+      </if>
+      <if test="record.refTableId != null">
+        ref_table_id = #{record.refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="record.refColumnId != null">
+        ref_column_id = #{record.refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeprecated != null">
+        is_deprecated = #{record.isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_column
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      comment = #{record.comment,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      biz_database_id = #{record.bizDatabaseId,jdbcType=INTEGER},
+      biz_table_id = #{record.bizTableId,jdbcType=INTEGER},
+      key_type = #{record.keyType,jdbcType=TINYINT},
+      not_null = #{record.notNull,jdbcType=BIT},
+      ref_table_id = #{record.refTableId,jdbcType=INTEGER},
+      ref_column_id = #{record.refColumnId,jdbcType=INTEGER},
+      is_deprecated = #{record.isDeprecated,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dbmer.model.BizColumn">
+    update biz_column
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizDatabaseId != null">
+        biz_database_id = #{bizDatabaseId,jdbcType=INTEGER},
+      </if>
+      <if test="bizTableId != null">
+        biz_table_id = #{bizTableId,jdbcType=INTEGER},
+      </if>
+      <if test="keyType != null">
+        key_type = #{keyType,jdbcType=TINYINT},
+      </if>
+      <if test="notNull != null">
+        not_null = #{notNull,jdbcType=BIT},
+      </if>
+      <if test="refTableId != null">
+        ref_table_id = #{refTableId,jdbcType=INTEGER},
+      </if>
+      <if test="refColumnId != null">
+        ref_column_id = #{refColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeprecated != null">
+        is_deprecated = #{isDeprecated,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dbmer.model.BizColumn">
+    update biz_column
+    set name = #{name,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      biz_database_id = #{bizDatabaseId,jdbcType=INTEGER},
+      biz_table_id = #{bizTableId,jdbcType=INTEGER},
+      key_type = #{keyType,jdbcType=TINYINT},
+      not_null = #{notNull,jdbcType=BIT},
+      ref_table_id = #{refTableId,jdbcType=INTEGER},
+      ref_column_id = #{refColumnId,jdbcType=INTEGER},
+      is_deprecated = #{isDeprecated,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
